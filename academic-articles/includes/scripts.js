@@ -1,24 +1,18 @@
-function goToPage(totalPages) {
-    let pageInput = document.getElementById("page-input").value;
-    let search = "<?php echo esc_js($search); ?>";
-    let searchBy = "<?php echo esc_js($search_by); ?>";
-
-    if (pageInput >= 1 && pageInput <= totalPages) {
-        window.location.href = "?page_num=" + pageInput + "&search=" + encodeURIComponent(search) + "&search_by=" + encodeURIComponent(searchBy);
-    } else {
-        alert("Please enter a valid page number between 1 and " + totalPages);
+// Function to handle page navigation
+function goToPage(maxPage) {
+    var pageInput = document.getElementById('page-input').value;
+    var page = parseInt(pageInput);
+    
+    if (isNaN(page) || page < 1) {
+        page = 1;
+    } else if (page > maxPage) {
+        page = maxPage;
     }
-}
-
-function toggleAbstract(button) {
-    const fullAbstract = button.previousElementSibling;
-    const shortAbstract = fullAbstract.previousElementSibling;
-
-    if (fullAbstract.style.display === 'none') {
-        fullAbstract.style.display = 'inline';
-        button.textContent = 'Read Less';
-    } else {
-        fullAbstract.style.display = 'none';
-        button.textContent = 'Read More';
-    }
+    
+    // Get current URL parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('page_num', page);
+    
+    // Redirect to the new page
+    window.location.href = '?' + urlParams.toString();
 }
